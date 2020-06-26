@@ -120,7 +120,22 @@ Complete!
 [root@localhost ~]# 
 ```
 
+```
+[root@localhost ~]# systemctl start nginx
+[root@localhost ~]# systemctl status nginx
+● nginx.service - nginx - high performance web server
+   Loaded: loaded (/usr/lib/systemd/system/nginx.service; disabled; vendor preset: disabled)
+   Active: active (running) since Fri 2020-06-26 13:04:58 UTC; 4s ago
+     Docs: http://nginx.org/en/docs/
+  Process: 10548 ExecStart=/usr/sbin/nginx -c /etc/nginx/nginx.conf (code=exited, status=0/SUCCESS)
+ Main PID: 10549 (nginx)
+   CGroup: /system.slice/nginx.service
+           ├─10549 nginx: master process /usr/sbin/nginx -c /etc/nginx/nginx.conf
+           └─10550 nginx: worker process
 
+Jun 26 13:04:58 localhost.localdomain systemd[1]: Starting nginx - high performance web server...
+Jun 26 13:04:58 localhost.localdomain systemd[1]: Started nginx - high performance web server.
+```
 
 
 ## 2) Cоздать свой репо и разместить там свой RPM реализовать это все либо в вагранте, либо развернуть у себя через nginx и дать ссылку на репо
