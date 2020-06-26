@@ -1,0 +1,37 @@
+    1  yum install -y \redhat-lsb-core \wget \rpmdevtools \rpm-build \createrepo \yum-utils
+    2  wget https://nginx.org/packages/centos/7/SRPMS/nginx-1.14.1-1.el7_4.ngx.src.rpm
+    3  ll
+    4  rpm -ihv nginx-1.14.1-1.el7_4.ngx.src.rpm
+    5  adduser builder
+    6  rpm -ihv nginx-1.14.1-1.el7_4.ngx.src.rpm
+    7  cd /root/
+    8  wget https://www.openssl.org/source/latest.tar.gz
+    9  tar -xvf latest.tar.gz
+   10  yum-builddep rpmbuild/SPECS/nginx.spec
+   11  rpmbuild -bb rpmbuild/SPECS/nginx.spec
+   12  yum install gcc
+   13  rpmbuild -bb rpmbuild/SPECS/nginx.spec
+   14  ll rpmbuild/RPMS/x86_64/
+   15   yum localinstall -y rpmbuild/RPMS/x86_64/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm
+   16   systemctl start nginx
+   17  systemctl status nginx
+   18  mkdir /usr/share/nginx/html/repo
+   19  cp rpmbuild/RPMS/x86_64/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm /usr/share/nginx/html/repo/
+   20  wget http://www.percona.com/downloads/percona-release/redhat/0.1-6/percona-release-0.1-6.noarch.rpm -O /usr/share/nginx/html/repo/percona-release-0.1-6.noarch.rpm
+   21  createrepo /usr/share/nginx/html/repo/
+   22  nginx -t
+   23   nginx -s reload
+   24  yum install vim nano -y
+   25  vim /etc/nginx/conf.d/default.conf 
+   26  nginx -t
+   27   nginx -s reload
+   28  curl -a http://localhost/repo/
+   29  cat >> /etc/yum.repos.d/otus.repo << EOF[otus]name=otus-linuxbaseurl=http://localhost/repogpgcheck=0enabled=1EOF
+   30  nano /etc/yum.repos.d/otus.repo
+   31  yum repolist enabled | grep otus
+   32  nano /etc/yum.repos.d/otus.repo
+   33  yum repolist enabled | grep otus
+   34  yum repolist
+   35  yum list | grep otus
+   36  ll /usr/share/nginx/html/repo/
+   37  history
