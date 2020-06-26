@@ -48,8 +48,16 @@ Saving to: ‘latest.tar.gz’
 
 ```
 [root@localhost ~]# tar -xvf latest.tar.gz
+[root@localhost ~]# ll
+total 10604
+-rw-------.  1 root root    5570 Apr 30 22:09 anaconda-ks.cfg
+-rw-r--r--.  1 root root 9801502 Apr 21 13:01 latest.tar.gz
+-rw-r--r--.  1 root root 1033399 Jun 26 13:36 nginx-1.14.1-1.el7_4.ngx.src.rpm
+drwxrwxr-x. 18 root root    4096 Apr 21 12:22 openssl-1.1.1g
+-rw-------.  1 root root    5300 Apr 30 22:09 original-ks.cfg
+drwxr-xr-x.  4 root root      34 Jun 26 13:37 rpmbuild
 ```
-
+Добавим строку ```--with-openssl=/root/openssl-1.1.1g``` в файл ```rpmbuild/SPECS/nginx.spec```
 
 ```
 [root@localhost ~]# yum-builddep rpmbuild/SPECS/nginx.spec
