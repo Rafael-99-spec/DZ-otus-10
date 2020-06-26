@@ -51,4 +51,76 @@ Saving to: ‘latest.tar.gz’
 ```
 
 
+```
+[root@localhost ~]# yum-builddep rpmbuild/SPECS/nginx.spec
+Loaded plugins: fastestmirror
+Enabling base-source repository
+Enabling extras-source repository
+Enabling updates-source repository
+Loading mirror speeds from cached hostfile
+ * base: mirrors.datahouse.ru
+ * extras: centos-mirror.rbc.ru
+ * updates: centos-mirror.rbc.ru
+base-source                                                     | 2.9 kB  00:00:00     
+extras-source                                                   | 2.9 kB  00:00:00     
+updates-source                                                  | 2.9 kB  00:00:00     
+(1/3): extras-source/7/primary_db                               |  21 kB  00:00:00     
+(2/3): updates-source/7/primary_db                              |  48 kB  00:00:00     
+(3/3): base-source/7/primary_db                                 | 974 kB  00:00:02     
+Checking for new repos for mirrors
+Getting requirements for rpmbuild/SPECS/nginx.spec
+ --> Already installed : redhat-lsb-core-4.1-27.el7.centos.1.x86_64
+ --> Already installed : systemd-219-73.el7_8.5.x86_64
+ --> 1:openssl-devel-1.0.2k-19.el7.x86_64
+ --> zlib-devel-1.2.7-18.el7.x86_64
+ --> pcre-devel-8.32-17.el7.x86_64
+ ...
+```
+
+```
+[root@localhost ~]# rpmbuild -bb rpmbuild/SPECS/nginx.spec
+Executing(%prep): /bin/sh -e /var/tmp/rpm-tmp.AuYY8l
++ umask 022
++ cd /root/rpmbuild/BUILD
++ cd /root/rpmbuild/BUILD
++ rm -rf nginx-1.14.1
++ /usr/bin/gzip -dc /root/rpmbuild/SOURCES/nginx-1.14.1.tar.gz
++ /usr/bin/tar -xf -
++ STATUS=0
++ '[' 0 -ne 0 ']'
++ cd nginx-1.14.1
++ /usr/bin/chmod -Rf a+rX,u+w,g-w,o-w .
++ cp /root/rpmbuild/SOURCES/nginx.init.in .
++ sed -e 's|%DEFAULTSTART%|2 3 4 5|g' -e 's|%DEFAULTSTOP%|0 1 6|g' -e 's|%PROVIDES%|nginx|g'
++ sed -e 's|%DEFAULTSTART%||g' -e 's|%DEFAULTSTOP%|0 1 2 3 4 5 6|g' -e 's|%PROVIDES%|nginx-debug|g'
++ exit 0
+Executing(%build): /bin/sh -e /var/tmp/rpm-tmp.f4Nce7
++ umask 022
+...
+```
+
+```
+[root@localhost ~]# yum localinstall /root/rpmbuild/RPMS/x86_64/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm -y
+Loaded plugins: fastestmirror
+Examining /root/rpmbuild/RPMS/x86_64/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm: 1:nginx-1.14.1-1.el7_4.ngx.x86_64
+Marking /root/rpmbuild/RPMS/x86_64/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm to be installed
+Resolving Dependencies
+--> Running transaction check
+---> Package nginx.x86_64 1:1.14.1-1.el7_4.ngx will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+...
+  Verifying  : 1:nginx-1.14.1-1.el7_4.ngx.x86_64                                                                                                                                                               1/1 
+
+Installed:
+  nginx.x86_64 1:1.14.1-1.el7_4.ngx                                                                                                                                                                                
+
+Complete!
+[root@localhost ~]# 
+```
+
+
+
+
 ## 2) Cоздать свой репо и разместить там свой RPM реализовать это все либо в вагранте, либо развернуть у себя через nginx и дать ссылку на репо
