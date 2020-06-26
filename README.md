@@ -4,7 +4,7 @@
 Установим все необходимые пакеты для сборки собственного пакета ```*.rpm``` пакета.
 ```yum install -y redhat-lsb-core wget rpmdevtools rpm-build createrepo yum-utils wget gcc```
 
-
+Загрузим nginx ```*.rpm``` пакет и установим через RedHat package manager.
 ```
 [root@localhost ~]# wget https://nginx.org/packages/centos/7/SRPMS/nginx-1.14.1-1.el7_4.ngx.src.rpm
 --2020-06-26 12:32:13--  https://nginx.org/packages/centos/7/SRPMS/nginx-1.14.1-1.el7_4.ngx.src.rpm
@@ -26,7 +26,7 @@ Updating / installing...
    1:nginx-1:1.14.1-1.el7_4.ngx       ################################# [100%]
    
 ```
-
+Далее установим и разархивируем самые актуальные исходники для openssl. Они нам будут нужны при нового сборке пакета.
 ```
 [root@localhost ~]# wget https://www.openssl.org/source/latest.tar.gz
 --2020-06-26 12:32:46--  https://www.openssl.org/source/latest.tar.gz
@@ -59,6 +59,7 @@ drwxr-xr-x.  4 root root      34 Jun 26 13:37 rpmbuild
 ```
 Добавим строку ```--with-openssl=/root/openssl-1.1.1g``` в файл ```rpmbuild/SPECS/nginx.spec```
 
+Поставим все независимости чтобы в процессе сборки не было ошибок.
 ```
 [root@localhost ~]# yum-builddep rpmbuild/SPECS/nginx.spec
 Loaded plugins: fastestmirror
