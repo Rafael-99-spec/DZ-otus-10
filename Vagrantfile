@@ -64,23 +64,26 @@ Vagrant.configure("2") do |config|
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-  sudo yum install -y redhat-lsb-core wget rpmdevtools rpm-build createrepo yum-utils vim nano net-tools gcc
+  sudo yum install -y redhat-lsb-core wget rpmdevtools rpm-build createrepo yum-utils vim nano net-tools gcc lynx
   cd /root
   sudo adduser builder
   sudo wget https://nginx.org/packages/centos/7/SRPMS/nginx-1.14.1-1.el7_4.ngx.src.rpm
+  sudo rpm -ihv nginx-1.14.1-1.el7_4.ngx.src.rpm
   sudo wget https://www.openssl.org/source/latest.tar.gz
   sudo tar -xvf latest.tar.gz
-  sudo yum-builddep rpmbuild/SPECS/nginx.spec
-  sudo cp /vagrant/nginx.spec rpmbuild/SPECS/nginx.spec
-  sudo rpmbuild -bb rpmbuild/SPECS/nginx.spec
-  sudo yum localinstall -y rpmbuild/RPMS/x86_64/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm
+  sudo yum-builddep -y /root/rpmbuild/SPECS/nginx.spec
+  sudo mv /vagrant/nginx.spec /root/rpmbuild/SPECS/nginx.spec
+  sudo rpmbuild -bb /root/rpmbuild/SPECS/nginx.spec
+  sudo yum localinstall -y /root/rpmbuild/RPMS/x86_64/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm
   sudo systemctl start nginx
   sudo mkdir /usr/share/nginx/html/repo
-  sudo cp rpmbuild/RPMS/x86_64/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm /usr/share/nginx/html/repo/
+  sudo chmod 777 /usr/share/nginx/html/repo
+  sudo cp /root/rpmbuild/RPMS/x86_64/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm /usr/share/nginx/html/repo/
   sudo wget http://www.percona.com/downloads/percona-release/redhat/0.1-6/percona-release-0.1-6.noarch.rpm -O /usr/share/nginx/html/repo/percona-release-0.1-6.noarch.rpm
   sudo createrepo /usr/share/nginx/html/repo/
   sudo cp /vagrant/default.conf /etc/nginx/conf.d/default.conf 
+  sudo nginx -t
   sudo nginx -s reload
-  sudo cp /vagrant/otus.repo /etc/yum.repo.d/otus.repo
+  sudo cp /vagrant/otus.repo /etc/yum.repos.d/
   SHELL
 end
