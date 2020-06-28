@@ -85,7 +85,7 @@ Getting requirements for rpmbuild/SPECS/nginx.spec
  --> pcre-devel-8.32-17.el7.x86_64
  ...
 ```
-
+Далее совершим сборку ```*.rpm``` пакета
 ```
 [root@localhost ~]# rpmbuild -bb rpmbuild/SPECS/nginx.spec
 Executing(%prep): /bin/sh -e /var/tmp/rpm-tmp.AuYY8l
@@ -107,7 +107,7 @@ Executing(%build): /bin/sh -e /var/tmp/rpm-tmp.f4Nce7
 + umask 022
 ...
 ```
-
+После сборки пакета попробуем его установаить для тестирования его работаспособности.
 ```
 [root@localhost ~]# yum localinstall /root/rpmbuild/RPMS/x86_64/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm -y
 Loaded plugins: fastestmirror
@@ -128,7 +128,7 @@ Installed:
 Complete!
 [root@localhost ~]# 
 ```
-
+Как видно снизу, служба установленная из пакета работает
 ```
 [root@localhost ~]# systemctl start nginx
 [root@localhost ~]# systemctl status nginx
@@ -148,3 +148,4 @@ Jun 26 13:04:58 localhost.localdomain systemd[1]: Started nginx - high performan
 
 
 ## 2) Cоздать свой репо и разместить там свой RPM реализовать это все либо в вагранте, либо развернуть у себя через nginx и дать ссылку на репо
+Для создания своего репозитория достаточно всего лишь склонировать данный git репозиторий, зайти в папку с репозиторием и запустить ```vagrant up``` для установки ВМ с настроенным новым репозиторем работающим через веб-сервис ```nginx```, который установлен из собственного ```*.rpm``` пакета.
